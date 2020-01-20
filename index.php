@@ -21,15 +21,15 @@
  <form method="post" action="index.php" enctype="multipart/form-data" >
        Name  <input type="text" name="name" id="name"/></br></br>
        Email <input type="text" name="email" id="email"/></br></br>
-       Job <input type="text" name="job" id="job"/></br></br>
+       NPM <input type="text" name="npm" id="npm"/></br></br>
        <input type="submit" name="submit" value="Submit" />
        <input type="submit" name="load_data" value="Load Data" />
  </form>
  <?php
-    $host = "<Nama server database Anda>";
-    $user = "<Nama admin database Anda>";
-    $pass = "<Password admin database Anda>";
-    $db = "<Nama database Anda>";
+    $host = "muhamriiserver.database.windows.net";
+    $user = "muhamrii";
+    $pass = "Muhamri_085718833205";
+    $db = "dbo";
 
     try {
         $conn = new PDO("sqlsrv:server = $host; Database = $db", $user, $pass);
@@ -42,15 +42,15 @@
         try {
             $name = $_POST['name'];
             $email = $_POST['email'];
-            $job = $_POST['job'];
+            $npm = $_POST['npm'];
             $date = date("Y-m-d");
             // Insert data
-            $sql_insert = "INSERT INTO Registration (name, email, job, date) 
+            $sql_insert = "INSERT INTO mahasiswaw (name, email, npm, date) 
                         VALUES (?,?,?,?)";
             $stmt = $conn->prepare($sql_insert);
             $stmt->bindValue(1, $name);
             $stmt->bindValue(2, $email);
-            $stmt->bindValue(3, $job);
+            $stmt->bindValue(3, $npm);
             $stmt->bindValue(4, $date);
             $stmt->execute();
         } catch(Exception $e) {
@@ -60,7 +60,7 @@
         echo "<h3>Your're registered!</h3>";
     } else if (isset($_POST['load_data'])) {
         try {
-            $sql_select = "SELECT * FROM Registration";
+            $sql_select = "SELECT * FROM mahasiswaw";
             $stmt = $conn->query($sql_select);
             $registrants = $stmt->fetchAll(); 
             if(count($registrants) > 0) {
@@ -68,12 +68,12 @@
                 echo "<table>";
                 echo "<tr><th>Name</th>";
                 echo "<th>Email</th>";
-                echo "<th>Job</th>";
+                echo "<th>NPM</th>";
                 echo "<th>Date</th></tr>";
                 foreach($registrants as $registrant) {
                     echo "<tr><td>".$registrant['name']."</td>";
                     echo "<td>".$registrant['email']."</td>";
-                    echo "<td>".$registrant['job']."</td>";
+                    echo "<td>".$registrant['npm']."</td>";
                     echo "<td>".$registrant['date']."</td></tr>";
                 }
                 echo "</table>";
